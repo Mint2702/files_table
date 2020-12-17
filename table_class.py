@@ -93,7 +93,7 @@ class Table:
             return False
 
 
-data_raw = {"column1":["1",2,"three",4.1],"column2":["gool","bench",20,12]}
+data_raw = {"column1": ["1", 2, "three", 4.1], "column2": ["gool", "bench", 20, 12]}
 
 table = Table(data_raw)
 
