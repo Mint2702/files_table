@@ -52,6 +52,49 @@ def load_table(*args, types=False) -> Table:
         return False
 
 
+def save_table(table: Table, base_name: str, max_rows=None):
+    """
+    Write data to a CSV file with specified name
+    """
+
+    headers = table.headers
+    length_of_table = len(table.data)
+
+    if max_rows is None or length_of_table / max_rows <= 1:
+        with open(f"{base_name}.csv", "w") as out_file:
+            writer = csv.writer(out_file)
+            writer.writerow(headers)
+            for line in table.data:
+                writer.writerow(line)
+            return True
+
+    if length_of_table % max_rows == 0:
+        num_files = length_of_table // max_rows
+    else:
+        num_files = length_of_table // max_rows + 1
+
+    count = 1
+    names = [base_name]
+    while count < num_files:
+        new_name = f"{base_name}_{count}"
+        names.append(new_name)
+        count += 1
+
+    count = 0
+    data_splited = []
+    while count < num_files:
+        splited_list = table.data[count * max_rows: (count + 1) * max_rows]
+        data_splited.append(splited_list)
+        count += 1
+
+    for i in range(len(names)):
+        with open(f"{names[i]}.csv", "w") as out_file:
+            writer = csv.writer(out_file)
+            writer.writerow(headers)
+            for item in data_splited[i]:
+                writer.writerow(item)
+    return True
+
+
 table = load_table("table", "table2")
-print(table.data)
-print(table.headers)
+save_table(table, "save", max_rows=2)
