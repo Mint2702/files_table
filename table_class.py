@@ -97,4 +97,4 @@ data_raw = {"column1": ["1", 2, "three", 4.1], "column2": ["gool", "bench", 20, 
 
 table = Table(data_raw)
 
-#print(table.data)
+# print(table.data)

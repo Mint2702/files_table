@@ -83,7 +83,7 @@ def save_table(table: Table, base_name: str, max_rows=None):
     count = 0
     data_splited = []
     while count < num_files:
-        splited_list = table.data[count * max_rows: (count + 1) * max_rows]
+        splited_list = table.data[count * max_rows : (count + 1) * max_rows]
         data_splited.append(splited_list)
         count += 1
 
