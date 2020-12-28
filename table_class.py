@@ -2,6 +2,8 @@ from typing import List, Dict, Any
 
 
 class Table:
+    __slots__ = ("data", "headers")
+
     def __init__(self, data: List[dict] or Dict[str, list] or List[list]):
         if self.check_type(data) == "dict":
             self.headers = list(data.keys())
@@ -91,6 +93,9 @@ class Table:
         else:
             print("Wrong input format")
             return False
+
+        def get_column_types(self):
+            pass
 
 
 data_raw = {"column1": ["1", 2, "three", 4.1], "column2": ["gool", "bench", 20, 12]}

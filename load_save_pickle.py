@@ -92,5 +92,5 @@ def save_table(table: Table, name: str, max_rows=None):
 data_raw = {"column1": ["1", 2, "three", 4.1], "column2": ["gool", "bench", 20, 12]}
 table = Table(data_raw)
 save_table(table, "table", max_rows=2)
-table1 = load_table("table_1", "table")
+table1 = load_table("table", "table_1")
 print(table1.data)
