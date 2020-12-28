@@ -1,5 +1,7 @@
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from tabulate import tabulate
+from datetime import date, time
+import copy
 
 
 class Table:
@@ -144,9 +146,45 @@ class Table:
 
         return tabulate(self.data, headers=self.headers)
 
+    def get_rows_by_number(
+        self, start: int, stop: Optional[int] = None, copy_table: bool = False
+    ) -> list:
+        """
+        Returns row/rows specified by its number
+        """
 
-data_raw = {"column1": ["1", None, "three", 9], "column2": ["gool", "bench", 20, 12]}
+        start -= 1
+        if stop is None:
+            stop = start + 1
+        if start > stop or stop <= 0 or start <= 0:
+            print(
+                "Please check you 'start' and 'stop' arguements - start should be less than stop"
+            )
+            return False
+        if copy_table:
+            if start >= len(self.data) or stop > len(self.data):
+                print("Wrong interval")
+                return False
+
+            rows = [copy.deepcopy(self.data[i]) for i in range(start, stop)]
+            return rows
+        else:
+            if start >= len(self.data) or stop > len(self.data):
+                print("Wrong interval")
+                return False
+
+            rows = [self.data[i] for i in range(start, stop)]
+            return rows
+
+
+data_raw = {
+    "column1": ["1", date(2005, 1, 12), "three", 9],
+    "column2": ["gool", "bench", 20, 12],
+}
 
 table = Table(data_raw)
 
-# print(table.print_table())
+new = table.get_rows_by_number(2, copy_table=False)
+new[0][1] = '1'
+print(new)
+print(table.data)

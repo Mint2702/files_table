@@ -45,8 +45,6 @@ def load_table(*args, types=False) -> dict:
 def save_table(table: Table, name: str, max_rows=None):
     """
     Write data to pickle files with specified name
-
-    All the lists in the dictionaries must have the same number of elements in it
     """
 
     length = len(table.data)
@@ -89,8 +87,10 @@ def save_table(table: Table, name: str, max_rows=None):
     return True
 
 
+"""
 data_raw = {"column1": ["1", 2, "three", 4.1], "column2": ["gool", "bench", 20, 12]}
 table = Table(data_raw)
 save_table(table, "table", max_rows=2)
 table1 = load_table("table", "table_1")
 print(table1.data)
+"""

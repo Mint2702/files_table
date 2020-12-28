@@ -2,7 +2,7 @@ from table_class import Table
 
 
 def save(table: Table, name: str):
-    f = open(f"{name}.txt", "w") 
+    f = open(f"{name}.txt", "w")
     f.write(table.print_table())
 
 
