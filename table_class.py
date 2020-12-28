@@ -2,22 +2,25 @@ from typing import List, Dict, Any
 
 
 class Table:
-    __slots__ = ("data", "headers")
+    __slots__ = ("data", "headers", "types")
 
     def __init__(self, data: List[dict] or Dict[str, list] or List[list]):
         if self.check_type(data) == "dict":
             self.headers = list(data.keys())
             self.data = self.from_dict_to_list_lists(data)
+            self.types = self.get_column_types()
         elif self.check_type(data) == "list of dicts":
             try:
                 self.headers = list(data[0].keys())
                 self.data = self.from_list_dicts_to_list_lists(data)
+                self.types = self.get_column_types()
             except Exception:
                 print("Wrong format")
                 return None
         elif self.check_type(data) == "list of lists":
             self.headers = data[0]
             self.data = data[1:]
+            self.types = self.get_column_types()
         else:
             print("Wrong format")
             return None
@@ -94,12 +97,20 @@ class Table:
             print("Wrong input format")
             return False
 
-        def get_column_types(self):
-            pass
+    def get_column_types(self) -> dict:
+        types = {}
+        for i in range(len(self.headers)):
+            first_type = type(self.data[0][i]).__name__
+            for row in self.data:
+                if type(row[i]).__name__ != first_type:
+                    types[self.headers[i]] = "Multiple types"
+                    break
+                types[self.headers[i]] = first_type
+        return types
 
 
-data_raw = {"column1": ["1", 2, "three", 4.1], "column2": ["gool", "bench", 20, 12]}
+data_raw = {"column1": ["1", "2", "three", "4.1"], "column2": ["gool", "bench", 20, 12]}
 
 table = Table(data_raw)
 
-# print(table.data)
+print(table.types)
