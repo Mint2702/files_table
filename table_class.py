@@ -1,10 +1,15 @@
 from typing import List, Dict, Any
+from tabulate import tabulate
 
 
 class Table:
     __slots__ = ("data", "headers", "types")
 
     def __init__(self, data: List[dict] or Dict[str, list] or List[list]):
+        """
+        Initiates slots of 'data', 'headers' and 'types'
+        """
+
         if self.check_type(data) == "dict":
             self.headers = list(data.keys())
             self.data = self.from_dict_to_list_lists(data)
@@ -26,6 +31,10 @@ class Table:
             return None
 
     def from_list_dicts_to_list_lists(self, data: List[dict]) -> List[list]:
+        """
+        Rewrites information from a list of dicts to a list of lists
+        """
+
         if self.check_headers_dict(data) is False:
             print("Wrong format")
             return False
@@ -39,6 +48,10 @@ class Table:
         return new_data
 
     def from_dict_to_list_lists(self, data: Dict[str, list]) -> List[list]:
+        """
+        Rewrites information from a dict to a list of lists
+        """
+
         new_data = []
         headers = list(data.keys())
         max_len = self.max_length(data)
@@ -54,6 +67,10 @@ class Table:
         return new_data
 
     def check_headers_dict(self, data: List[dict]) -> bool:
+        """
+        Checks if the headers in all dicts in the list of input are the same
+        """
+
         oldheaders = list(data[0].keys())
         for line in data:
             headers = list(line.keys())
@@ -62,6 +79,10 @@ class Table:
         return True
 
     def max_length(self, data: Dict[str, list]) -> int:
+        """
+        Returns the maximum length of the table if the input is dictionary
+        """
+
         headers = list(data.keys())
         leng = len(data[headers[0]])
         for header in headers:
@@ -70,6 +91,10 @@ class Table:
         return leng
 
     def check_type(self, data: Any) -> str:
+        """
+        Specifies type of the input for __init__
+        """
+
         if type(data) is dict:
             headers = list(data.keys())
             for header in headers:
@@ -98,6 +123,10 @@ class Table:
             return False
 
     def get_column_types(self) -> dict:
+        """
+        Get types of columns from the table
+        """
+
         types = {}
         for i in range(len(self.headers)):
             first_type = type(self.data[0][i]).__name__
@@ -108,9 +137,16 @@ class Table:
                 types[self.headers[i]] = first_type
         return types
 
+    def print_table(self):
+        """
+        Print data from the table
+        """
 
-data_raw = {"column1": ["1", "2", "three", "4.1"], "column2": ["gool", "bench", 20, 12]}
+        return tabulate(self.data, headers=self.headers)
+
+
+data_raw = {"column1": ["1", None, "three", 9], "column2": ["gool", "bench", 20, 12]}
 
 table = Table(data_raw)
 
-print(table.types)
+# print(table.print_table())
