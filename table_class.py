@@ -124,7 +124,7 @@ class Table:
             print("Wrong input format")
             return False
 
-    def get_column_types(self) -> dict:
+    def get_column_types(self, by_number: bool = True) -> dict:
         """
         Get types of columns from the table
         """
@@ -132,11 +132,15 @@ class Table:
         types = {}
         for i in range(len(self.headers)):
             first_type = type(self.data[0][i]).__name__
+            if by_number is True:
+                header = i
+            else:
+                header = self.headers[i]
             for row in self.data:
                 if type(row[i]).__name__ != first_type:
-                    types[self.headers[i]] = "Multiple types"
+                    types[header] = "Multiple types"
                     break
-                types[self.headers[i]] = first_type
+                types[header] = first_type
         return types
 
     def print_table(self):
@@ -217,4 +221,6 @@ data_raw = {
 }
 
 table = Table(data_raw)
+
+print(table.get_column_types(by_number=False))
 
