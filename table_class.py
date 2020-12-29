@@ -323,6 +323,20 @@ class Table:
         except Exception:
             print("Wrong input. Column not found")
 
+    def split(self, row_number: int):
+        """
+        Splits one table into two on the specified row
+        """
+
+        if row_number >= len(self.data):
+            print("Row number is greater than length of table")
+            return False
+        
+        new_data = copy.deepcopy(self.data[row_number:])
+        self.data = self.data[:row_number + 1]
+        new_table = Table(new_data)
+        return new_table
+
 
 data_raw = {
     "column1": ["1", date(2005, 1, 12), "three", 9, "1"],
@@ -331,5 +345,5 @@ data_raw = {
 
 table = Table(data_raw)
 val = [1, 2, 3, 4, "5"]
-table.set_value(69)
+print(table.split(2).print_table())
 print(table.print_table())
