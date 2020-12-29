@@ -143,6 +143,51 @@ class Table:
                 types[header] = first_type
         return types
 
+    def set_column_types(self, types_dict: dict, by_number: bool = True):
+        """
+        Set types of columns from the table
+        """
+
+        for key in types_dict:
+            for row in self.data:
+                if by_number is True:
+                    try:
+                        if types_dict[key] == str:
+                            row[key] = str(row[key])
+                        elif types_dict[key] == int:
+                            row[key] = int(row[key])
+                        elif types_dict[key] == float:
+                            row[key] = float(row[key])
+                        elif types_dict[key] == bool:
+                            row[key] = bool(row[key])
+                        elif types_dict[key] == date:
+                            row[key] = date(row[key])
+                        else:
+                            print("Unapropriate input")
+                            break
+                    except Exception:
+                        print("Couldn't convert")
+                        break
+                else:
+                    try:
+                        count = self.headers.index(key)
+                        if types_dict[key] == str:
+                            row[count] = str(row[count])
+                        elif types_dict[key] == int:
+                            row[count] = int(row[count])
+                        elif types_dict[key] == float:
+                            row[count] = float(row[count])
+                        elif types_dict[key] == bool:
+                            row[count] = bool(row[count])
+                        elif types_dict[key] == date:
+                            row[count] = date(row[count])
+                        else:
+                            print("Unapropriate input")
+                            break
+                    except Exception:
+                        print("Couldn't convert")
+                        break
+
     def print_table(self):
         """
         Print data from the table
@@ -214,6 +259,70 @@ class Table:
             new_table = Table(table)
             return new_table
 
+    def get_values(self, column: int or str = 0) -> list:
+        """
+        Returns a list of data in the specified column
+        """
+
+        try:
+            if type(column) == int:
+                column_data = [copy.deepcopy(row[column]) for row in self.data]
+                return column_data
+            else:
+                column_index = self.headers.index(column)
+                column_data = [copy.deepcopy(row[column_index]) for row in self.data]
+                return column_data
+        except Exception:
+            print("Wrong input. Column not found")
+
+    def get_value(self, column: int or str = 0) -> str or int or float or date:
+        """
+        Returns data in the specified column
+        """
+
+        try:
+            if type(column) == int:
+                column_data = copy.deepcopy(self.data[0][column])
+                return column_data
+            else:
+                column_index = self.headers.index(column)
+                column_data = copy.deepcopy(self.data[0][column_index])
+                return column_data
+        except Exception:
+            print("Wrong input. Column not found")
+
+    def set_values(self, values: list, column: int or str = 0):
+        """
+        Sets a list of data in the specified column
+        """
+
+        try:
+            if type(column) == int:
+                count = 0
+                for row in self.data:
+                    row[column] = values[count]
+                    count += 1
+            else:
+                count = 0
+                for row in self.data:
+                    row[self.headers.index(column)] = values[count]
+                    count += 1
+        except Exception:
+            print("Wrong input. Column not found")
+
+    def set_value(self, value: str or int or float or date, column: int or str = 0):
+        """
+        Sets a list of data in the specified column
+        """
+
+        try:
+            if type(column) == int:
+                self.data[0][column] = value
+            else:
+                self.data[0][self.headers.index(column)] = value
+        except Exception:
+            print("Wrong input. Column not found")
+
 
 data_raw = {
     "column1": ["1", date(2005, 1, 12), "three", 9, "1"],
@@ -221,6 +330,6 @@ data_raw = {
 }
 
 table = Table(data_raw)
-
-print(table.get_column_types(by_number=False))
-
+val = [1, 2, 3, 4, "5"]
+table.set_value(69)
+print(table.print_table())
