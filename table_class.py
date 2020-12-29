@@ -180,17 +180,41 @@ class Table:
             new_table = Table(rows)
             return new_table
 
-"""
+    def get_rows_by_index(self, *args, copy_table: bool = False):
+        """
+        Returns row/rows specified by its value from the first column
+        """
+
+        if not args:
+            print("Please enter some values")
+            return False
+
+        values = [value for value in args]
+
+        if copy_table:
+            table = []
+            for value in values:
+                for row in self.data:
+                    if row[0] == value:
+                        table.append(copy.deepcopy(row))
+            table.insert(0, copy.deepcopy(self.headers))
+            new_table = Table(table)
+            return new_table
+        else:
+            table = []
+            for value in values:
+                for row in self.data:
+                    if row[0] == value:
+                        table.append(row)
+            table.insert(0, copy.deepcopy(self.headers))
+            new_table = Table(table)
+            return new_table
+
+
 data_raw = {
-    "column1": ["1", date(2005, 1, 12), "three", 9],
-    "column2": ["gool", "bench", 20, 12],
+    "column1": ["1", date(2005, 1, 12), "three", 9, "1"],
+    "column2": ["gool", "bench", 20, 12, None],
 }
 
 table = Table(data_raw)
-print(table.data)
-new = table.get_rows_by_number(2, copy_table=False)
-print(new.data)
-new.data[0][1] = '1'
-print(table.data)
-print(new.data)
-"""
+
