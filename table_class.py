@@ -1,6 +1,6 @@
 from typing import List, Dict, Any, Optional
 from tabulate import tabulate
-from datetime import date, time
+from datetime import *
 import copy
 
 
@@ -148,7 +148,7 @@ class Table:
 
     def get_rows_by_number(
         self, start: int, stop: Optional[int] = None, copy_table: bool = False
-    ) -> list:
+    ):
         """
         Returns row/rows specified by its number
         """
@@ -167,24 +167,30 @@ class Table:
                 return False
 
             rows = [copy.deepcopy(self.data[i]) for i in range(start, stop)]
-            return rows
+            rows.insert(0, copy.deepcopy(self.headers))
+            new_table = Table(rows)
+            return new_table
         else:
             if start >= len(self.data) or stop > len(self.data):
                 print("Wrong interval")
                 return False
 
             rows = [self.data[i] for i in range(start, stop)]
-            return rows
+            rows.insert(0, copy.deepcopy(self.headers))
+            new_table = Table(rows)
+            return new_table
 
-
+"""
 data_raw = {
     "column1": ["1", date(2005, 1, 12), "three", 9],
     "column2": ["gool", "bench", 20, 12],
 }
 
 table = Table(data_raw)
-
-new = table.get_rows_by_number(2, copy_table=False)
-new[0][1] = '1'
-print(new)
 print(table.data)
+new = table.get_rows_by_number(2, copy_table=False)
+print(new.data)
+new.data[0][1] = '1'
+print(table.data)
+print(new.data)
+"""
