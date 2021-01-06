@@ -1,7 +1,7 @@
 import csv
 import copy
 
-from table_class import Table
+from ..table_class import Table
 
 
 def load_table(*args, types=False) -> Table:

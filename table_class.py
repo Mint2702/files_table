@@ -530,7 +530,7 @@ class Table:
 
     def eq(self, column1: int or str, column2: int or str) -> list:
         """
-        Compares data in two tables and returns a list with the result of the comparison
+        Compares data for equality(==) in two tables and returns a list with the result of the comparison
         """
 
         try:
@@ -549,6 +549,141 @@ class Table:
         comparison_list = []
         for row in self.data:
             if row[column2] == row[column1]:
+                comparison_list.append(True)
+            else:
+                comparison_list.append(False)
+
+        return comparison_list
+
+    def gr(self, column1: int or str, column2: int or str) -> list:
+        """
+        Compares data for greatness(>) in two tables and returns a list with the result of the comparison
+        """
+
+        try:
+            if type(column1) == str:
+                column1 = self.headers.index(column1)
+            if type(column2) == str:
+                column2 = self.headers.index(column2)
+        except Exception:
+            print("Columns not found")
+            return False
+
+        if column1 == column2:
+            print("Columns are the same")
+            return False
+
+        comparison_list = []
+        for row in self.data:
+            if row[column1] > row[column2]:
+                comparison_list.append(True)
+            else:
+                comparison_list.append(False)
+
+        return comparison_list
+
+    def ls(self, column1: int or str, column2: int or str) -> list:
+        """
+        Compares data for least(<) in two tables and returns a list with the result of the comparison
+        """
+
+        try:
+            if type(column1) == str:
+                column1 = self.headers.index(column1)
+            if type(column2) == str:
+                column2 = self.headers.index(column2)
+        except Exception:
+            print("Columns not found")
+            return False
+
+        if column1 == column2:
+            print("Columns are the same")
+            return False
+
+        comparison_list = []
+        for row in self.data:
+            if row[column1] < row[column2]:
+                comparison_list.append(True)
+            else:
+                comparison_list.append(False)
+
+        return comparison_list
+
+    def ge(self, column1: int or str, column2: int or str) -> list:
+        """
+        Compares data for greatness or eaquality(>=) in two tables and returns a list with the result of the comparison
+        """
+
+        try:
+            if type(column1) == str:
+                column1 = self.headers.index(column1)
+            if type(column2) == str:
+                column2 = self.headers.index(column2)
+        except Exception:
+            print("Columns not found")
+            return False
+
+        if column1 == column2:
+            print("Columns are the same")
+            return False
+
+        comparison_list = []
+        for row in self.data:
+            if row[column1] >= row[column2]:
+                comparison_list.append(True)
+            else:
+                comparison_list.append(False)
+
+        return comparison_list
+
+    def le(self, column1: int or str, column2: int or str) -> list:
+        """
+        Compares data for least or eaquality(<=) in two tables and returns a list with the result of the comparison
+        """
+
+        try:
+            if type(column1) == str:
+                column1 = self.headers.index(column1)
+            if type(column2) == str:
+                column2 = self.headers.index(column2)
+        except Exception:
+            print("Columns not found")
+            return False
+
+        if column1 == column2:
+            print("Columns are the same")
+            return False
+
+        comparison_list = []
+        for row in self.data:
+            if row[column1] <= row[column2]:
+                comparison_list.append(True)
+            else:
+                comparison_list.append(False)
+
+        return comparison_list
+
+    def ne(self, column1: int or str, column2: int or str) -> list:
+        """
+        Compares data for not eaquality(>=) in two tables and returns a list with the result of the comparison
+        """
+
+        try:
+            if type(column1) == str:
+                column1 = self.headers.index(column1)
+            if type(column2) == str:
+                column2 = self.headers.index(column2)
+        except Exception:
+            print("Columns not found")
+            return False
+
+        if column1 == column2:
+            print("Columns are the same")
+            return False
+
+        comparison_list = []
+        for row in self.data:
+            if row[column1] != row[column2]:
                 comparison_list.append(True)
             else:
                 comparison_list.append(False)

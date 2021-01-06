@@ -1,4 +1,4 @@
-from table_class import Table
+from ..table_class import Table
 
 
 def save(table: Table, name: str):

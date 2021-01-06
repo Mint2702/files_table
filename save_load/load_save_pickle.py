@@ -1,6 +1,7 @@
 import pickle
-from table_class import Table
 import copy
+
+from ..table_class import Table
 
 
 def load_table(*args, types=False) -> dict:
