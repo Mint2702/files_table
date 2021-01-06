@@ -331,19 +331,236 @@ class Table:
         if row_number >= len(self.data):
             print("Row number is greater than length of table")
             return False
-        
+
         new_data = copy.deepcopy(self.data[row_number:])
-        self.data = self.data[:row_number + 1]
+        self.data = self.data[: row_number + 1]
         new_table = Table(new_data)
         return new_table
 
+    def delete_column(self, column: str or int):
+        """
+        Deletes specified column from self.data
+        """
+
+        try:
+            if type(column) == str:
+                column = self.headers.index(column)
+        except Exception:
+            print("Columns not found")
+            return False
+
+        if column >= len(self.headers):
+            print("Column out of range")
+            return False
+
+        for row in self.data:
+            row.pop(column)
+
+    def add(
+        self, column1: int or str, column2: int or str, name_of_result_column: str
+    ) -> bool:
+        """
+        Adds data of two columns in one column
+        """
+
+        try:
+            if type(column1) == str:
+                column1 = self.headers.index(column1)
+            if type(column2) == str:
+                column2 = self.headers.index(column2)
+        except Exception:
+            print("Columns not found")
+            return False
+
+        if column1 == column2:
+            print("Columns are the same")
+            return False
+
+        if (
+            self.get_column_types()[column1] == ("int" or "float" or "bool")
+            and self.get_column_types()[column1] == self.get_column_types()[column2]
+        ):
+            column1_data = self.get_values(column1)
+            column2_data = self.get_values(column2)
+            self.delete_column(column2)
+            self.delete_column(column1)
+            new_column = [
+                column1_data[i] + column2_data[i] for i in range(len(column1_data))
+            ]
+            for i in range(len(new_column)):
+                self.data[i].append(new_column[i])
+            self.headers.pop(column2)
+            self.headers.pop(column1)
+            self.headers.append(name_of_result_column)
+
+        else:
+            print("Wrong column types")
+            return False
+
+        return True
+
+    def sub(
+        self, column1: int or str, column2: int or str, name_of_result_column: str
+    ) -> bool:
+        """
+        Subtracts data from one column of another column
+        """
+
+        try:
+            if type(column1) == str:
+                column1 = self.headers.index(column1)
+            if type(column2) == str:
+                column2 = self.headers.index(column2)
+        except Exception:
+            print("Columns not found")
+            return False
+
+        if column1 == column2:
+            print("Columns are the same")
+            return False
+
+        if (
+            self.get_column_types()[column1] == ("int" or "float" or "bool")
+            and self.get_column_types()[column1] == self.get_column_types()[column2]
+        ):
+            column1_data = self.get_values(column1)
+            column2_data = self.get_values(column2)
+            self.delete_column(column2)
+            self.delete_column(column1)
+            new_column = [
+                column1_data[i] - column2_data[i] for i in range(len(column1_data))
+            ]
+            for i in range(len(new_column)):
+                self.data[i].append(new_column[i])
+            self.headers.pop(column2)
+            self.headers.pop(column1)
+            self.headers.append(name_of_result_column)
+
+        else:
+            print("Wrong column types")
+            return False
+
+        return True
+
+    def mul(
+        self, column1: int or str, column2: int or str, name_of_result_column: str
+    ) -> bool:
+        """
+        Multiply data of two columns in one column
+        """
+
+        try:
+            if type(column1) == str:
+                column1 = self.headers.index(column1)
+            if type(column2) == str:
+                column2 = self.headers.index(column2)
+        except Exception:
+            print("Columns not found")
+            return False
+
+        if column1 == column2:
+            print("Columns are the same")
+            return False
+
+        if (
+            self.get_column_types()[column1] == ("int" or "float" or "bool")
+            and self.get_column_types()[column1] == self.get_column_types()[column2]
+        ):
+            column1_data = self.get_values(column1)
+            column2_data = self.get_values(column2)
+            self.delete_column(column2)
+            self.delete_column(column1)
+            new_column = [
+                column1_data[i] * column2_data[i] for i in range(len(column1_data))
+            ]
+            for i in range(len(new_column)):
+                self.data[i].append(new_column[i])
+            self.headers.pop(column2)
+            self.headers.pop(column1)
+            self.headers.append(name_of_result_column)
+
+        else:
+            print("Wrong column types")
+            return False
+
+        return True
+
+    def div(
+        self, column1: int or str, column2: int or str, name_of_result_column: str
+    ) -> bool:
+        """
+        Devides data from one column by data in another column
+        """
+
+        try:
+            if type(column1) == str:
+                column1 = self.headers.index(column1)
+            if type(column2) == str:
+                column2 = self.headers.index(column2)
+        except Exception:
+            print("Columns not found")
+            return False
+
+        if column1 == column2:
+            print("Columns are the same")
+            return False
+
+        if (
+            self.get_column_types()[column1] == ("int" or "float" or "bool")
+            and self.get_column_types()[column1] == self.get_column_types()[column2]
+        ):
+            column1_data = self.get_values(column1)
+            column2_data = self.get_values(column2)
+            self.delete_column(column2)
+            self.delete_column(column1)
+            new_column = [
+                column1_data[i] / column2_data[i] for i in range(len(column1_data))
+            ]
+            for i in range(len(new_column)):
+                self.data[i].append(new_column[i])
+            self.headers.pop(column2)
+            self.headers.pop(column1)
+            self.headers.append(name_of_result_column)
+
+        else:
+            print("Wrong column types")
+            return False
+
+        return True
+
+    def eq(self, column1: int or str, column2: int or str) -> list:
+        """
+        Compares data in two tables and returns a list with the result of the comparison
+        """
+
+        try:
+            if type(column1) == str:
+                column1 = self.headers.index(column1)
+            if type(column2) == str:
+                column2 = self.headers.index(column2)
+        except Exception:
+            print("Columns not found")
+            return False
+
+        if column1 == column2:
+            print("Columns are the same")
+            return False
+
+        comparison_list = []
+        for row in self.data:
+            if row[column2] == row[column1]:
+                comparison_list.append(True)
+            else:
+                comparison_list.append(False)
+
+        return comparison_list
+
 
 data_raw = {
-    "column1": ["1", date(2005, 1, 12), "three", 9, "1"],
-    "column2": ["gool", "bench", 20, 12, None],
+    "column1": [1, 2005, 3, 9, 1],
+    "column2": [1, 4, 20, 12, 56],
+    "column3": [1, 4, 20, 12, 56],
 }
 
 table = Table(data_raw)
-val = [1, 2, 3, 4, "5"]
-print(table.split(2).print_table())
-print(table.print_table())
+print(table.eq("column1", "column2"))
